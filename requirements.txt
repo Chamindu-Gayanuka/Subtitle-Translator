@@ -1,0 +1,5 @@
+customtkinter
+pysrt
+deep-translator
+tkinterdnd2
+charset-normalizer
