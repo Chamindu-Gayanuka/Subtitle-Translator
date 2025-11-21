@@ -39,7 +39,7 @@ pip install -r requirements.txt
 
 ### 3. Run the Application
 ```bash
-python translator.py
+python Translator_1.0.0.py
 ```
 
 ---
