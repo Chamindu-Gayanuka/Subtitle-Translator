@@ -29,7 +29,7 @@
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/yourusername/srt-translator-utf8.git
+git clone https://github.com/Chamindu-Gayanuka/Subtitle-Translator
 ```
 
 ### 2. Install Dependencies
