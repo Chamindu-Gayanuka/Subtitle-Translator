@@ -1,0 +1,109 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+*.pyw
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+.mypy_cache/
+.dmypy.json
+.pyre/
+.pytest_cache/
+
+# Virtual Environment
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE / Editors
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.suo
+*.sw?
+*.sublime-project
+*.sublime-workspace
+*.code-workspace
+*.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Build / Distribution
+build/
+dist/
+*.egg
+*.egg-info/
+*.eggs/
+.eggs/
+*.manifest
+*.spec
+*.exe
+*.app/
+*.dmg
+
+# CustomTkinter / Tkinter
+*.db
+*.dat
+*.ini
+
+# Logs and databases
+*.log
+*.sqlite
+*.sqlite3
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Project-specific
+# (Optional: ignore large test files or sample SRTs)
+samples/
+test_subtitles/
+*.srt
+!requirements.txt
+!README.md
+!LICENSE
+
+# PyInstaller
+# (Uncomment if you build .exe)
+/dist/
+/build/
+*.spec
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.swp
+*~
+
+# Secrets
+*.env
+*.env.local
+config.json
+secrets/

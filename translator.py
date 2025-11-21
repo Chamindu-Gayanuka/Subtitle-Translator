@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 """
+Version: 1.0.0
+Author: Chamindu Gayanuka
+Description: This is python custom tkinter based subtitles translator.
 SRT Translator & UTF-8 Converter – Dual Mode App (CJK REMOVED FROM TARGET)
 """
 import customtkinter as ctk
