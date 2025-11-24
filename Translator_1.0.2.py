@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Version: 1.0.4
+Version: 1.0.2
 Author: Chamindu Gayanuka (Updated by Dula Yasi)
+Copyright: MIT License
+Contributors: Chamindu Gayanuka, Yasitha Dulaj
 Description: Python custom tkinter based subtitles translator.
 Supports Batch Translation & UTF-8 Conversion
 Updated: User can set output folder path for translated files.
