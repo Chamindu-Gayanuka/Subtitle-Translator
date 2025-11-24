@@ -152,17 +152,20 @@ class ScrollableComboBox(ctk.CTkFrame):
 class SRTTranslatorApp(ctk.CTk):
     def __init__(self):
         super().__init__()
-        w, h = 1350, 750
+        w, h = 1300, 700
         x = (self.winfo_screenwidth() // 2) - (w // 2)
         y = (self.winfo_screenheight() // 2) - (h // 2)
         self.geometry(f"{w}x{h}+{x}+{y}")
         self.resizable(False, False)
         self.title("SRT Translator & UTF-8 Converter")
 
+        # Icon (ICO for Windows)
         icon_path = os.path.join(os.path.dirname(__file__), "icon.ico")
         if os.path.exists(icon_path):
-            try: self.iconbitmap(icon_path)
-            except: pass
+            try:
+                self.iconbitmap(icon_path)
+            except Exception as e:
+                print("Failed to load .ico icon:", e)
 
         self.mode = tk.StringVar(value="translate")
         self.selected_files = []
@@ -237,7 +240,7 @@ class SRTTranslatorApp(ctk.CTk):
         self.tr_btn = ctk.CTkButton(self, text="Translate SRT (Fast)",
                                     height=52, font=ctk.CTkFont(size=15, weight="bold"),
                                     state="disabled", command=self._start)
-        self.tr_btn.pack(pady=20)
+        self.tr_btn.pack(pady=28)
 
         # Progress
         self.prog = ctk.CTkProgressBar(self, width=900)
@@ -249,8 +252,10 @@ class SRTTranslatorApp(ctk.CTk):
         # NEW: Output folder selection
         of = ctk.CTkFrame(self)
         of.pack(pady=10, padx=70, fill="x")
-        self.output_lbl = ctk.CTkLabel(of, text="Output Folder: (default = input file folder)",
-                                       font=ctk.CTkFont(size=12), text_color="gray")
+        self.output_lbl = ctk.CTkLabel(of,
+                                       text="Browse custom save location [Default is input folder]",
+                                       font=ctk.CTkFont(size=12),
+                                       text_color="gray")
         self.output_lbl.pack(side="left", padx=10, fill="x", expand=True)
         ctk.CTkButton(of, text="Browse", width=120, command=self._browse_output_folder).pack(side="right", padx=10)
 
@@ -266,6 +271,31 @@ class SRTTranslatorApp(ctk.CTk):
         if folder:
             self.output_folder.set(folder)
             self.output_lbl.configure(text=f"Output Folder: {folder}", text_color="#00ff00")
+
+    # -------------------------------------------------
+    # UTF-8 UI
+    # -------------------------------------------------
+    def _utf8_ui(self):
+        ctk.CTkLabel(self, text="SRT UTF-8 Converter",
+                     font=ctk.CTkFont(size=26, weight="bold")).pack(pady=30)
+        ff = ctk.CTkFrame(self)
+        ff.pack(pady=12, padx=70, fill="x")
+        self.files_lbl = ctk.CTkLabel(ff, text="No files selected",
+                                      font=ctk.CTkFont(size=12), text_color="gray")
+        self.files_lbl.pack(side="left", padx=15, fill="x", expand=True)
+        ctk.CTkButton(ff, text="Select up to 20 .srt files", width=180,
+                      command=self._browse_utf8).pack(side="right", padx=15)
+
+        self.convert_btn = ctk.CTkButton(self, text="Convert to UTF-8",
+                                         height=52, font=ctk.CTkFont(size=15, weight="bold"),
+                                         state="disabled", command=self._convert_utf8)
+        self.convert_btn.pack(pady=30)
+        self.stat = ctk.CTkLabel(self, text="Ready", text_color="lightgray",
+                                 font=ctk.CTkFont(size=12))
+        self.stat.pack(pady=6)
+        self.prog = ctk.CTkProgressBar(self, width=900)
+        self.prog.pack(pady=14);
+        self.prog.set(0)
 
     # -------------------------------------------------
     # Browse & translation logic
@@ -375,7 +405,10 @@ class SRTTranslatorApp(ctk.CTk):
 
         for original_path, translated_subs in self.translated_subs_list:
             name, ext = os.path.splitext(os.path.basename(original_path))
-            save_path = os.path.join(folder, f"{name}_translated{ext}")
+            # Get selected target language correctly
+            selected_language = self.dst.get()
+            language_code = LANGUAGES[selected_language]
+            save_path = os.path.join(folder, f"{name}.{language_code}{ext}")
             try:
                 pysrt.SubRipFile(translated_subs).save(save_path, encoding="utf-8")
             except Exception as e:
@@ -383,6 +416,48 @@ class SRTTranslatorApp(ctk.CTk):
 
         self.stat.configure(text=f"All translated SRTs saved!", text_color="#00ff00")
         messagebox.showinfo("Done", f"All translated SRT files saved to:\n{folder}")
+
+# -------------------------------------------------
+    # UTF-8 Converter Logic
+    # -------------------------------------------------
+    def _browse_utf8(self):
+        files = filedialog.askopenfilenames(filetypes=[("SRT Files", "*.srt")])
+        if files:
+            self.selected_files = files[:20]  # Limit 20 files
+            names = [os.path.basename(f) for f in self.selected_files]
+            self.files_lbl.configure(text=f"{len(names)} files selected: {', '.join(names)}")
+            self.convert_btn.configure(state="normal")
+            self.prog.set(0)
+            self.stat.configure(text="Ready")
+
+    def _convert_utf8(self):
+        if not self.selected_files: return
+        self.convert_btn.configure(state="disabled")
+        Thread(target=self._utf8_thread, daemon=True).start()
+
+    def _utf8_thread(self):
+        total = len(self.selected_files)
+        done = 0
+        for f in self.selected_files:
+            try:
+                encoding = "utf-8"
+                if _USE_CHARDET:
+                    encoding = chardet.detect(open(f, "rb").read())["encoding"] or "utf-8"
+                else:
+                    res = from_path(f)
+                    encoding = res.best().encoding if res.best() else "utf-8"
+
+                text = open(f, "r", encoding=encoding, errors="ignore").read()
+                open(f, "w", encoding="utf-8").write(text)
+            except Exception as e:
+                print(f"UTF-8 conversion failed for {f}: {e}")
+            done += 1
+            progress = done / total
+            self.after(0, lambda p=progress: self.prog.set(p))
+            self.after(0, lambda d=done, t=total: self.stat.configure(
+                text=f"Converting... {d}/{t}", text_color="cyan"))
+        self.after(0, lambda: self.stat.configure(text="UTF-8 Conversion Complete!", text_color="#00ff00"))
+        self.after(0, lambda: self.convert_btn.configure(state="normal"))
 
 # -------------------------------------------------
 # Run App
