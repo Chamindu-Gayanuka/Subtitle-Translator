@@ -39,7 +39,12 @@ pip install -r requirements.txt
 
 ### 3. Run the Application
 ```bash
-python Translator_1.0.1.py
+python Translator_1.0.2.py
+```
+
+### 4. (Optional) Create Executable with PyInstaller
+```bash
+pyinstaller --onefile --windowed --icon=icon.ico --name="Subtitles Translator" --add-data="icon.ico;." Translator_1.0.2.py
 ```
 
 ---
