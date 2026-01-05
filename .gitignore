@@ -34,7 +34,6 @@ venv.bak/
 
 # IDE / Editors
 .idea/
-.vscode/
 *.suo
 *.ntvs*
 *.njsproj
@@ -109,3 +108,5 @@ test_subtitles/
 *.env.local
 config.json
 secrets/
+config.bat
+node_modules
