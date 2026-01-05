@@ -1,4 +1,4 @@
-# SRT Translator & UTF-8 Converter
+# SRT Translator , UTF-8 Converter & English Subtitle Extractor
 
 ![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
 ![CustomTkinter](https://img.shields.io/badge/GUI-CustomTkinter-orange)
@@ -6,7 +6,7 @@
 
 > **Fast, reliable SRT subtitle translator using Google Translate**  
 > **Batch UTF-8 converter for legacy subtitle files**  
-> **CJK languages excluded from target for better accuracy**
+> **English subtitle extractor from video files**
 
 ---
 
@@ -21,7 +21,7 @@
 | **Modern Dark UI** | Built with **CustomTkinter** |
 | **Offline UTF-8 Mode** | No internet required for encoding conversion |
 
-> **CJK languages (Chinese, Japanese, Korean, Thai, Vietnamese) are excluded from target language selection** to ensure high-quality, reliable translations.
+> **CJK languages (Chinese, Japanese, Korean, Thai, Vietnamese) are now included in target language selection** and ensure high-quality, reliable translations.
 
 ---
 
@@ -39,47 +39,59 @@ pip install -r requirements.txt
 
 ### 3. Run the Application
 ```bash
-python Translator_1.0.2.py
+python Translator_1.0.3.py
 ```
 
 ### 4. (Optional) Create Executable with PyInstaller
 ```bash
-pyinstaller --onefile --windowed --icon=icon.ico --name="Subtitles Translator" --add-data="icon.ico;." Translator_1.0.2.py
+pip install pyinstaller
+```
+
+```bash
+pyinstaller --onefile --windowed --icon=icon.ico --name="Subtitles Translator" --add-data "ffmpeg.exe;." --add-data "ffprobe.exe;." --add-data "icon.ico;." --clean --noconfirm Translator_1.0.3.py       
 ```
 
 ---
 
 ### Translate SRT
 1. Click **"Translate SRT"**
-2. Browse and load a `.srt` file
+2. Browse and load `.srt` files
 3. Select **Source** (use **Auto** for best results) and **Target** language
 4. Click **"Translate SRT (Fast)"**
-5. Save the translated `.srt` file
+5. Save the translated `.srt` files
 
 ### Convert to UTF-8
 1. Click **"Convert to UTF-8"**
 2. Select up to **20 .srt files**
+3. Click **"Convert to UTF-8"**
+
+### Extract English Subtitles
+1. Click **"Extract English Subtitles"**
+2. Browse and load video files
 3. Choose an output folder
-4. Click **"Convert to UTF-8"**
+4. Click **"Extract English Subtitles"**
 
 ---
 
 ## Supported Target Languages
 
-| Language | Code | Language | Code |
-|--------|------|----------|------|
-| Arabic | `ar` | Italian | `it` |
-| Czech | `cs` | Malay | `ms` |
-| Danish | `da` | Norwegian | `no` |
-| Dutch | `nl` | Polish | `pl` |
-| English | `en` | Romanian | `ro` |
-| Filipino | `tl` | Russian | `ru` |
-| Finnish | `fi` | **Sinhala** | `si` |
-| French | `fr` | Swedish | `sv` |
-| German | `de` | Turkish | `tr` |
-| Greek | `el` | Ukrainian | `uk` |
+| Language  | Code | Language | Code |
+|-----------|------|----------|------|
+| Arabic    | `ar` | Italian | `it` |
+| Czech     | `cs` | Malay | `ms` |
+| Danish    | `da` | Norwegian | `no` |
+| Dutch     | `nl` | Polish | `pl` |
+| English   | `en` | Romanian | `ro` |
+| Filipino  | `tl` | Russian | `ru` |
+| Finnish   | `fi` | **Sinhala** | `si` |
+| Chinese (Simplified) | `zh-CN` | Spanish | `es` |
+| Chinese (Traditional) | `zh-TW` | Korean | `ko` |
+| Thai | `th` | Japanese | `ja` |
+| French    | `fr` | Swedish | `sv` |
+| German    | `de` | Turkish | `tr` |
+| Greek     | `el` | Ukrainian | `uk` |
 | Hungarian | `hu` | Indonesian | `id` |
-| Croatian | `hr` | ... | |
+| Croatian  | `hr` | ... | |
 
 ---
 
