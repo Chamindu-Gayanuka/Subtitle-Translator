@@ -88,6 +88,8 @@ test_subtitles/
 !requirements.txt
 !README.md
 !LICENSE
+!ffmpeg.exe
+!ffprobe.exe
 
 # PyInstaller
 # (Uncomment if you build .exe)
