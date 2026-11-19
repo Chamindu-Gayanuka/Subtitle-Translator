@@ -9,6 +9,8 @@ Supports Batch Translation & UTF-8 Conversion
 Updated: Add English Subtitle Extractor from Video Files
 """
 
+import utils.http_session
+import utils.transport
 import utils.session
 import customtkinter as ctk
 import tkinter as tk
